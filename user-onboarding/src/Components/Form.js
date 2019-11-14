@@ -3,6 +3,7 @@ import { withFormik, Form, Field } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 
+
 const OnBoardingForm = ({values, errors, touched, status}) => {
 const [users, setUsers] = useState([]);
 
@@ -26,9 +27,16 @@ useEffect( () => {
         {touched.password && errors.password && <p className="errors">{errors.password}</p>}
 
 
-        <button>Submit</button>
+        <button type="button">Submit</button>
 
         </Form>
+        {users.map(user => (
+            <ul key={user.id}>
+            <li>Name: {user.name}</li>
+            <li>Email: {user.email}</li>
+            <li>Password: {user.password}</li>
+            </ul>
+        ))}
         </div>
     )
 }
@@ -60,5 +68,4 @@ const FormikOnBoardingForm = withFormik({
     }
 })
 
-(OnBoardingForm); 
-export default FormikOnBoardingForm;
+export default FormikOnBoardingForm(OnBoardingForm);
