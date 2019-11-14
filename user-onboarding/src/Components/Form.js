@@ -69,7 +69,7 @@ useEffect( () => {
         <Field type="checkbox" name="tos" checked={values.tos} />
         </label>
 
-        <button>Submit</button>
+        <button as="button" >Submit</button>
 
         </Form>
         {users.map(user => (
