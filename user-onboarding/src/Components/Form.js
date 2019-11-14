@@ -58,10 +58,7 @@ const FormikOnBoardingForm = withFormik({
         })
         .catch(error => console.log(error.response));
     }
-
-
-
-
 })
 
-export default OnBoardingForm;
+(OnBoardingForm); 
+export default FormikOnBoardingForm;
