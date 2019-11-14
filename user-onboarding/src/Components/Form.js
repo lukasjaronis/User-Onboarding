@@ -28,6 +28,11 @@ const FormStyles = styled.div`
         margin: 5px;
         padding: 5px;
     }
+
+    .tos-container {
+        margin: 5px;
+        padding: 5px;
+    }
     
 }
 
@@ -36,7 +41,7 @@ const FormStyles = styled.div`
 
 
 
-const OnBoardingForm = ({values, errors, touched, status}) => {
+const OnBoardingForm = ({ values, errors, touched, status }) => {
 const [users, setUsers] = useState([]);
 
 useEffect( () => {
@@ -59,8 +64,12 @@ useEffect( () => {
         <Field className="formField" type="password" name="password" placeholder="Password" />
         {touched.password && errors.password && <p className="errors">{errors.password}</p>}
 
+        <label className="tos-container">
+        Terms of Service
+        <Field type="checkbox" name="tos" checked={values.tos} />
+        </label>
 
-        <button type="button">Submit</button>
+        <button>Submit</button>
 
         </Form>
         {users.map(user => (
@@ -72,34 +81,39 @@ useEffect( () => {
         ))}
         </div>
         </FormStyles>
-    )
-}
+    );
+};
 
 const FormikOnBoardingForm = withFormik({
-    mapPropsToValues({ name, email, password }) {
+    mapPropsToValues({ name, email, password, tos }) {
 
         return {
             name: name || "",
             email: email || "",
-            password: password || ""
+            password: password || "",
+            tos: tos || false
         };
     },
 
     validationSchema: Yup.object().shape(
         {
-            name: Yup.string().required(),
-            email: Yup.string().required(),
-            password: Yup.string().required()
+            name: Yup.string().required("Please enter your name!"),
+            email: Yup.string().required("Please enter your email!"),
+            password: Yup.string().required("Please enter your password!")
         }
     ),
     handleSubmit(values, { setStatus }) {
         axios
         .post("https://reqres.in/api/users/", values)
-        .then(response => {
-            setStatus(response.data);
+        .then(res => {
+          setStatus(res.data);
+          console.log(res.data);
         })
         .catch(error => console.log(error.response));
+
+      
     }
 })
+
 
 export default FormikOnBoardingForm(OnBoardingForm);
